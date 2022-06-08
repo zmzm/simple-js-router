@@ -28,7 +28,7 @@ class Router {
 
   #parsePattern(pattern) {
     const step1 = pattern.replace(/\\/g, '\\/');
-    const step2 = step1.replace(/(\*|:\w*)/gm, '(:?[A-z0-9|*]*)');
+    const step2 = step1.replace(/(\:\w*)/gm, '(:?[A-z0-9]*)');
 
     return `^${step2}(?:\/?)$`;
   }
@@ -59,6 +59,17 @@ class Router {
     }
   }
 
+  #mergeObjects(tokens, params) {
+    const parameters = {};
+    Object.values(tokens).forEach((token, index) => {
+      const parsedToken = token.replace(':', '');
+
+      parameters[parsedToken] = params[index + 1];
+    });
+
+    return { parameters };
+  }
+
   #getParams(pattern, url) {
     const parsedPattern = this.#paths[pattern].reg;
     const regex = new RegExp(parsedPattern, 'i');
@@ -66,7 +77,7 @@ class Router {
     const tokens = this.#transformRegexOutput(regex.exec(pattern));
     const params = this.#transformRegexOutput(regex.exec(url));
 
-    return { tokens, params };
+    return this.#mergeObjects(tokens, params);
   }
 
   #processURL(pattern, url) {

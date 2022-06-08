@@ -5,6 +5,9 @@
   "author": "Vladislav Kovalskij",
   "license": "MIT",
   "scripts": {
+    "dev": "vite serve src",
+    "build": "vite build",
+    "preview": "vite preview",
     "jslint": "./node_modules/.bin/eslint src --ext .js --ext .jsx --max-warnings=0",
     "lint-and-fix": "npm run jslint --fix"
   },
@@ -24,6 +27,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "vite": "^2.9.10"
   }
 }

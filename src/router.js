@@ -27,8 +27,8 @@ class Router {
   }
 
   #parsePattern(pattern) {
-    const step1 = pattern.replace(/\//g, '/');
-    const step2 = step1.replace(/(*|:w*)/gm, '(:?[A-z0-9|*]*)');
+    const step1 = pattern.replace(/\\/g, '\\/');
+    const step2 = step1.replace(/(\*|:\w*)/gm, '(:?[A-z0-9|*]*)');
 
     return `^${step2}(?:\/?)$`;
   }
@@ -66,7 +66,7 @@ class Router {
     const tokens = this.#transformRegexOutput(regex.exec(pattern));
     const params = this.#transformRegexOutput(regex.exec(url));
 
-    return [...tokens, ...params];
+    return { tokens, params };
   }
 
   #processURL(pattern, url) {
